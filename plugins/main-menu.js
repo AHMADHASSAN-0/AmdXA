@@ -1,0 +1,93 @@
+const config = require('../config')
+const { cmd, commands } = require('../command');
+const path = require('path');
+const os = require("os")
+const fs = require('fs');
+const {runtime} = require('../lib/functions')
+const axios = require('axios')
+
+// Helper function for small caps text
+const toSmallCaps = (text) => {
+    if (!text || typeof text !== 'string') return '';
+    const smallCapsMap = {
+        'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ғ', 'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ',
+        'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ', 'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ',
+        's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x', 'y': 'ʏ', 'z': 'ᴢ'
+    };
+    return text.toLowerCase().split('').map(char => smallCapsMap[char] || char).join('');
+};
+
+// --- ROYAL LUXURY CATEGORY STYLE ---
+const formatCategory = (category, cmds) => {
+    const validCmds = cmds.filter(cmd => cmd.pattern && cmd.pattern.trim() !== '');
+    if (validCmds.length === 0) return ''; 
+    
+    let title = `\n*◈═══〔 ${category.toUpperCase()} 〕═══◈*\n`;
+    let body = validCmds.map(cmd => `*⚡︎* ${toSmallCaps(cmd.pattern)}`).join('\n');
+    return `${title}${body}\n`;
+};
+
+cmd({
+    pattern: "menu",
+    alias: ["m", "help", "allmenu"],
+    category: "main",
+    react: "⚡",
+    filename: __filename
+},
+async (conn, mek, m, { from, pushname, reply }) => {
+    try {
+        const categories = [...new Set(Object.values(commands).map(c => c.category))].filter(Boolean);
+        let menuSections = '';
+        categories.forEach(cat => {
+            const catCmds = Object.values(commands).filter(c => c.category === cat);
+            menuSections += formatCategory(cat, catCmds);
+        });
+
+        const BOT_NAME = config.BOT_NAME || "AHMAD-MD";
+        const uptime = runtime(process.uptime());
+
+        // --- ROYAL INTERFACE DESIGN ---
+        let dec = `
+*✨ ${BOT_NAME.toUpperCase()} ✨*
+
+*╭══════════════════⊷*
+*│ 👤 OWNER:* ${config.OWNER_NAME || "Ahmad Hassan"}
+*│ 🚀 UPTIME:* ${uptime}
+*│ 📂 COMMANDS:* ${Object.keys(commands).length}
+*│ 🛠️ MODE:* ${config.MODE || "Public"}
+*╰══════════════════⊷*
+${menuSections}
+*──╼『 ${BOT_NAME} 』╾──*
+> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
+
+        // Image Selection
+        let imageToUse = config.BOT_IMAGE || "https://files.catbox.moe/p5id8x.jpg";
+
+        // 1. Menu Image & Caption Send
+        await conn.sendMessage(from, { 
+            image: { url: imageToUse },
+            caption: dec, 
+            contextInfo: { 
+                mentionedJid: [m.sender], 
+                forwardingScore: 999, 
+                isForwarded: true, 
+                forwardedNewsletterMessageInfo: { 
+                    newsletterJid: '120363408512260657@newsletter', 
+                    newsletterName: "AHMADTech", 
+                    serverMessageId: 143 
+                } 
+            } 
+        }, { quoted: mek });
+
+        // 2. Audio File Send (As Audio, not Voice Note)
+        await conn.sendMessage(from, {
+            audio: { url: "https://files.catbox.moe/hoi9ur.mp3" },
+            mimetype: 'audio/mpeg',
+            ptt: false // Isse ye voice note nahi banega, normal audio show hoga
+        }, { quoted: mek });
+
+    } catch (e) { 
+        reply(`Error: ${e.message}`); 
+    } 
+});
+        
