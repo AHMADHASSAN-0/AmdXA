@@ -12,7 +12,7 @@ const path = require('path');
 
 cmd({
     pattern: "play",
-    alias: ["song", "music", "mp3"],
+    alias: ["song", "music"],
     desc: "Download YouTube audio",
     category: "download",
     react: "🎵",
