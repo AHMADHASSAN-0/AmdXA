@@ -60,13 +60,14 @@ ${menuSections}
 *──╼『 ${BOT_NAME} 』╾──*
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
 
-        // Image Selection
-        let imageToUse = config.BOT_IMAGE || "https://files.catbox.moe/p5id8x.jpg";
+        // Video URL Selection
+        let videoToUse = "https://files.catbox.moe/2owh18.mp4";
 
-        // 1. Menu Image & Caption Send
+        // 1. Menu Video & Caption Send
         await conn.sendMessage(from, { 
-            image: { url: imageToUse },
+            video: { url: videoToUse },
             caption: dec, 
+            gifPlayback: false, // Agar gif ki tarah loop chalana ho to true kar sakte hain
             contextInfo: { 
                 mentionedJid: [m.sender], 
                 forwardingScore: 999, 
