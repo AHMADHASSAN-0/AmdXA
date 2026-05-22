@@ -63,11 +63,12 @@ ${menuSections}
         // Video URL Selection
         let videoToUse = "https://files.catbox.moe/2owh18.mp4";
 
-        // 1. Menu Video & Caption Send
+        // 1. Menu Video Send (GIF Looping Mode)
         await conn.sendMessage(from, { 
             video: { url: videoToUse },
+            mimetype: 'video/mp4',
+            gifPlayback: true, // Isse video bina ruke GIF ki tarah loop me chalti rahegi
             caption: dec, 
-            gifPlayback: false, // Agar gif ki tarah loop chalana ho to true kar sakte hain
             contextInfo: { 
                 mentionedJid: [m.sender], 
                 forwardingScore: 999, 
@@ -84,7 +85,7 @@ ${menuSections}
         await conn.sendMessage(from, {
             audio: { url: "https://files.catbox.moe/hoi9ur.mp3" },
             mimetype: 'audio/mpeg',
-            ptt: false // Isse ye voice note nahi banega, normal audio show hoga
+            ptt: false // Normal audio file tarah show hoga
         }, { quoted: mek });
 
     } catch (e) { 
