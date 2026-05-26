@@ -9,8 +9,9 @@ cmd({
     react: "✅",
     desc: "Get pairing code for AHMAD-MD bot",
     category: "owner",
-    use: ".pair 923259158XXX",
+    use: ".pair 923001234567",
     filename: __filename
+
 }, async (conn, mek, m, {
     q,
     senderNumber,
@@ -20,76 +21,119 @@ cmd({
 
     try {
 
+        // =========================
+        // LOADING REACTION
+        // =========================
         await react('⏳');
 
         // =========================
-        // GET NUMBER
+        // GET PHONE NUMBER
         // =========================
         const phoneNumber = q
             ? q.replace(/[^0-9]/g, '')
             : senderNumber.replace(/[^0-9]/g, '');
 
+        // =========================
+        // VALIDATE NUMBER
+        // =========================
         if (!phoneNumber) {
+
             await react('❌');
-            return reply("❌ Please provide a number\nExample: .pair 923001234567");
+
+            return await reply(
+                "❌ Please provide a phone number\n\nExample:\n.pair 923001234567"
+            );
         }
 
         if (phoneNumber.length < 10 || phoneNumber.length > 15) {
+
             await react('❌');
-            return reply("❌ Invalid phone number format");
+
+            return await reply(
+                "❌ Invalid phone number format"
+            );
         }
 
         // =========================
-        // FETCH SERVERS
+        // FETCH SERVER LIST
         // =========================
         let serversResponse;
 
         try {
+
             serversResponse = await axios.get(
                 `${API_BASE_URL}/servers`,
                 {
                     timeout: 20000
                 }
             );
+
         } catch (e) {
-            console.log("SERVER FETCH ERROR:", e.message);
+
+            console.log(
+                "SERVER FETCH ERROR:",
+                e.response?.data || e.message
+            );
 
             await react('❌');
-            return reply("❌ Failed to connect to API server");
+
+            return await reply(
+                "❌ Failed to connect to API server"
+            );
         }
 
         // =========================
-        // CHECK SERVER LIST
+        // CHECK SERVER RESPONSE
         // =========================
         if (
             !serversResponse.data ||
             !Array.isArray(serversResponse.data.servers)
         ) {
-            console.log("INVALID SERVER RESPONSE:", serversResponse.data);
+
+            console.log(
+                "INVALID SERVER RESPONSE:",
+                serversResponse.data
+            );
 
             await react('❌');
-            return reply("❌ Invalid server list response");
-        }
 
-        const servers = serversResponse.data.servers;
-
-        if (servers.length === 0) {
-            await react('❌');
-            return reply("❌ No active servers found");
+            return await reply(
+                "❌ Invalid server response"
+            );
         }
 
         // =========================
-        // RANDOM SERVER
+        // SERVER ARRAY
+        // =========================
+        const servers = serversResponse.data.servers;
+
+        if (servers.length === 0) {
+
+            await react('❌');
+
+            return await reply(
+                "❌ No active servers found"
+            );
+        }
+
+        // =========================
+        // RANDOM SERVER SELECT
         // =========================
         const randomServer =
             servers[Math.floor(Math.random() * servers.length)];
 
         if (!randomServer.url) {
+
             await react('❌');
-            return reply("❌ Invalid server URL");
+
+            return await reply(
+                "❌ Invalid server URL"
+            );
         }
 
-        const serverUrl = randomServer.url.replace(/\/$/, '');
+        // REMOVE LAST /
+        const serverUrl =
+            randomServer.url.replace(/\/$/, '');
 
         console.log("SELECTED SERVER:", serverUrl);
 
@@ -119,7 +163,7 @@ cmd({
 
             await react('❌');
 
-            return reply(
+            return await reply(
                 `❌ Pair API Failed\n\n${
                     e.response?.data?.message ||
                     e.message
@@ -127,54 +171,74 @@ cmd({
             );
         }
 
-        console.log("PAIR RESPONSE:", response.data);
+        console.log(
+            "PAIR RESPONSE:",
+            response.data
+        );
 
         // =========================
-        // GET CODE FROM RESPONSE
+        // EXTRACT PAIR CODE
         // =========================
         const pairingCode =
             response.data?.code ||
             response.data?.pair ||
             response.data?.pairingCode;
 
+        // =========================
+        // CHECK PAIR CODE
+        // =========================
         if (!pairingCode) {
 
-            console.log("INVALID PAIR RESPONSE:", response.data);
+            console.log(
+                "INVALID PAIR RESPONSE:",
+                response.data
+            );
 
             await react('❌');
 
-            return reply("❌ Pair code not found in API response");
+            return await reply(
+                "❌ Pair code not found in API response"
+            );
         }
 
         // =========================
-        // SUCCESS
+        // SUCCESS REACTION
         // =========================
         await react('✅');
 
-        const msg = `
+        // =========================
+        // FIRST MESSAGE
+        // =========================
+        await reply(`
 ╭━━〔 AHMAD-MD PAIR 〕━━⬣
 ┃
-┃ 🔐 CODE: ${pairingCode}
+┃ ✅ Pair code generated successfully
 ┃ 🌐 SERVER: ${randomServer.name || 'Unknown'}
 ┃
 ┃ 📱 HOW TO CONNECT
 ┃ 1. Open WhatsApp
 ┃ 2. Linked Devices
 ┃ 3. Link a Device
-┃ 4. Enter this code
+┃ 4. Paste the code below
 ┃
 ╰━━━━━━━━━━━━━━⬣
-`;
+`);
 
-        await reply(msg);
+        // =========================
+        // SECOND MESSAGE (OTP ONLY)
+        // =========================
+        await reply(pairingCode);
 
     } catch (error) {
 
-        console.log("FULL ERROR:", error);
+        console.log(
+            "FULL ERROR:",
+            error
+        );
 
         await react('❌');
 
-        return reply(
+        return await reply(
             `❌ Error:\n${error.message}`
         );
     }
