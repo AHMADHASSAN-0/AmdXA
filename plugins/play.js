@@ -1,6 +1,6 @@
 // ════════════════════════════════════════════════════════
 // 🎵 PLAY / SONG COMMAND FIXED
-// ✅ Stable Audio Downloader
+// ✅ Multi API Stable Audio Downloader
 // ⚡ Powered By AHMAD-MD
 // ════════════════════════════════════════════════════════
 
@@ -9,6 +9,135 @@ const yts = require('yt-search');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { dlaudio, dlsong, dlmusic } = require('../lib/ytdl');
+
+// 🎧 GET AUDIO FUNCTION
+async function getAudio(videoUrl) {
+
+    let audioUrl = null;
+
+    // API 1 - dlaudio
+    try {
+        audioUrl = await dlaudio(videoUrl);
+
+        if (audioUrl) {
+            console.log("✅ dlaudio success");
+            return audioUrl;
+        }
+
+    } catch (e) {
+        console.log("❌ dlaudio failed:", e.message);
+    }
+
+    // API 2 - dlsong
+    try {
+        audioUrl = await dlsong(videoUrl);
+
+        if (audioUrl) {
+            console.log("✅ dlsong success");
+            return audioUrl;
+        }
+
+    } catch (e) {
+        console.log("❌ dlsong failed:", e.message);
+    }
+
+    // API 3 - dlmusic
+    try {
+        audioUrl = await dlmusic(videoUrl);
+
+        if (audioUrl) {
+            console.log("✅ dlmusic success");
+            return audioUrl;
+        }
+
+    } catch (e) {
+        console.log("❌ dlmusic failed:", e.message);
+    }
+
+    // API 4 - Jawad API
+    try {
+
+        const api =
+`https://jawad-tech.vercel.app/download/ytdl?url=${encodeURIComponent(videoUrl)}`;
+
+        const { data } = await axios.get(api, {
+            timeout: 30000
+        });
+
+        audioUrl =
+            data?.result?.audio ||
+            data?.result?.url ||
+            data?.audio ||
+            data?.url ||
+            data?.result?.mp3;
+
+        if (audioUrl) {
+            console.log("✅ Jawad API success");
+            return audioUrl;
+        }
+
+    } catch (e) {
+        console.log("❌ Jawad API failed:", e.message);
+    }
+
+    // API 5 - NexRay v1
+    try {
+
+        const api =
+`https://api.nexray.web.id/downloader/v1/ytmp3?url=${encodeURIComponent(videoUrl)}`;
+
+        const { data } = await axios.get(api);
+
+        if (data?.status && data?.result?.url) {
+            console.log("✅ NexRay v1 success");
+            return data.result.url;
+        }
+
+    } catch (e) {
+        console.log("❌ NexRay v1 failed:", e.message);
+    }
+
+    // API 6 - NexRay Normal
+    try {
+
+        const api =
+`https://api.nexray.web.id/downloader/ytmp3?url=${encodeURIComponent(videoUrl)}`;
+
+        const { data } = await axios.get(api);
+
+        if (data?.status && data?.result?.url) {
+            console.log("✅ NexRay success");
+            return data.result.url;
+        }
+
+    } catch (e) {
+        console.log("❌ NexRay failed:", e.message);
+    }
+
+    // API 7 - Deline
+    try {
+
+        const api =
+`https://api.deline.web.id/downloader/ytmp3?url=${encodeURIComponent(videoUrl)}`;
+
+        const { data } = await axios.get(api);
+
+        if (data?.status && data?.result?.dlink) {
+            console.log("✅ Deline success");
+            return data.result.dlink;
+        }
+
+    } catch (e) {
+        console.log("❌ Deline failed:", e.message);
+    }
+
+    return null;
+}
+
+// ════════════════════════════════════════
+// 🎵 PLAY COMMAND
+// ════════════════════════════════════════
 
 cmd({
     pattern: "play",
@@ -22,14 +151,14 @@ async (conn, mek, m, { from, q, reply }) => {
 
     try {
 
-        // ❌ No Query
+        // ❌ NO QUERY
         if (!q) {
             return reply(
                 "🎵 Please provide a song name\n\nExample: .play Faded Alan Walker"
             );
         }
 
-        // 🎶 Reaction
+        // 🎶 REACTION
         await conn.sendMessage(from, {
             react: {
                 text: "🎶",
@@ -37,7 +166,7 @@ async (conn, mek, m, { from, q, reply }) => {
             }
         });
 
-        // 🔍 Search YouTube
+        // 🔍 SEARCH YOUTUBE
         const search = await yts(q);
 
         if (!search.videos || search.videos.length === 0) {
@@ -54,30 +183,7 @@ async (conn, mek, m, { from, q, reply }) => {
 
         const video = search.videos[0];
 
-        // 📥 API Request
-        const api =
-`https://jawad-tech.vercel.app/download/ytdl?url=${encodeURIComponent(video.url)}`;
-
-        const { data } = await axios.get(api, {
-            timeout: 30000
-        });
-
-        console.log("API RESPONSE:", data);
-
-        // 🎧 Audio URL Detect
-        const audioUrl =
-            data?.result?.audio ||
-            data?.result?.url ||
-            data?.audio ||
-            data?.url ||
-            data?.result?.mp3;
-
-        // ❌ No Audio
-        if (!audioUrl) {
-            throw new Error("Audio URL not found");
-        }
-
-        // 🖼️ Song Info
+        // 🖼️ SONG INFO
         await conn.sendMessage(from, {
             image: { url: video.thumbnail },
             caption:
@@ -95,18 +201,34 @@ async (conn, mek, m, { from, q, reply }) => {
 > Powered By AHMAD-MD`
         }, { quoted: mek });
 
-        // 📥 Download Audio Buffer
+        // 🎧 GET AUDIO URL
+        const audioUrl = await getAudio(video.url);
+
+        // ❌ AUDIO FAILED
+        if (!audioUrl) {
+
+            await conn.sendMessage(from, {
+                react: {
+                    text: "❌",
+                    key: m.key
+                }
+            });
+
+            return reply("❌ All download APIs failed");
+        }
+
+        // 📥 DOWNLOAD AUDIO BUFFER
         const audioBuffer = await axios.get(audioUrl, {
             responseType: "arraybuffer",
-            timeout: 30000
+            timeout: 60000
         });
 
-        // 📂 Temp File
-        const filePath = path.join(__dirname, "temp_song.mp3");
+        // 📂 TEMP FILE
+        const filePath = path.join(__dirname, `${Date.now()}.mp3`);
 
         fs.writeFileSync(filePath, audioBuffer.data);
 
-        // 🎧 Send Audio
+        // 🎧 SEND AUDIO
         await conn.sendMessage(from, {
             audio: fs.readFileSync(filePath),
             mimetype: "audio/mpeg",
@@ -116,7 +238,7 @@ async (conn, mek, m, { from, q, reply }) => {
             contextInfo: {
                 externalAdReply: {
                     title: video.title,
-                    body: "YouTube Audio",
+                    body: "YouTube Audio Downloader",
                     thumbnailUrl: video.thumbnail,
                     sourceUrl: video.url,
                     mediaType: 1,
@@ -126,10 +248,10 @@ async (conn, mek, m, { from, q, reply }) => {
 
         }, { quoted: mek });
 
-        // 🗑️ Delete Temp File
+        // 🗑️ DELETE TEMP FILE
         fs.unlinkSync(filePath);
 
-        // ✅ Success Reaction
+        // ✅ SUCCESS REACTION
         await conn.sendMessage(from, {
             react: {
                 text: "✅",
@@ -141,7 +263,7 @@ async (conn, mek, m, { from, q, reply }) => {
 
         console.log("PLAY ERROR:", e);
 
-        // ❌ Error Reaction
+        // ❌ ERROR REACTION
         await conn.sendMessage(from, {
             react: {
                 text: "❌",
@@ -153,5 +275,3 @@ async (conn, mek, m, { from, q, reply }) => {
     }
 
 });
-
-                    
