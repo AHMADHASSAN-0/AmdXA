@@ -81,68 +81,48 @@ cmd({
     }
 });
 
-// UPDATED COMMAND: Get LID by typing number or mention
+// NEW COMMAND: Get @lid directly without converting to phone number
 cmd({
     pattern: "getlid",
     alias: ["lidonly", "lid", "mylid"],  
-    desc: "Get LID by providing a phone number, mentioning someone, or for yourself",
+    desc: "Get your LID (@lid) directly without conversion",
     react: "🆔",
     category: "utility",
     filename: __filename,
 }, async (conn, mek, m, { 
-    from, isGroup, reply, sender, fromMe, botNumber2, mentionUser, q
+    from, isGroup, reply, sender, fromMe, botNumber2, mentionUser
 }) => {
     try {
-        let targetJid = "";
-
-        // Case 1: Agar text me direct number diya gaya ho (.lid 923259158***)
-        if (q && q.trim()) {
-            let cleanNumber = q.replace(/[^0-9]/g, ''); // Sirf digits nikalne ke liye
-            if (cleanNumber.length >= 10) {
-                targetJid = `${cleanNumber}@s.whatsapp.net`;
+        // Check if mentioning someone to get their LID
+        const mentionedUser = mentionUser ? mentionUser[0] : null;
+        
+        if (mentionedUser) {
+            // Get mentioned user's LID
+            if (mentionedUser.includes('@lid')) {
+                return reply(`> *User LID:* ${mentionedUser}`);
             } else {
-                return reply("⚠️ *Invalid number format.* Please provide a complete number with country code.");
+                return reply(`⚠️ Mentioned user is not in LID format.`);
             }
         }
-        // Case 2: Agar kisi ko mention kiya gaya ho
-        else if (mentionUser && mentionUser.length > 0) {
-            targetJid = mentionUser[0];
-        }
-
-        // Agar target mil gaya (Number ya Mention ke zariye)
-        if (targetJid) {
-            try {
-                // WhatsApp server/cache se check karna ke is number ka LID kya hai
-                const lidMapping = await conn.signalRepository.lidMapping.getLIDForPN(targetJid.split('@')[0]);
-                if (lidMapping) {
-                    return reply(`> *Number:* ${targetJid.split('@')[0]}\n> *LID:* ${lidMapping}`);
-                } else {
-                    // Agar direct mapping nahi mili, to fallback query user format check karega
-                    if (targetJid.includes('@lid')) {
-                        return reply(`> *LID:* ${targetJid}`);
-                    }
-                    return reply(`❌ Is number ki LID database/cache me nahi mili. Ya to ye number chat me active nahi hai ya system me store nahi hai.`);
-                }
-            } catch (err) {
-                return reply(`❌ LID fetch karne me masla aya. User shayad setup nahi hai.`);
-            }
-        }
-
-        // Case 3: Default (Agar khali .lid likha ho to khud ka return kare)
+        
         if (isGroup) {
+            // In group - show sender's LID
             if (sender.includes('@lid')) {
                 return reply(`> *Your LID:* ${sender}`);
             } else {
                 return reply(`⚠️ You don't have a LID format in this chat.`);
             }
         } else {
+            // Private chat
             if (fromMe) {
+                // Bot owner in private chat
                 if (botNumber2.includes('@lid')) {
                     return reply(`> *Bot LID:* ${botNumber2}`);
                 } else {
                     return reply(`> *Bot Number:* ${botNumber2}`);
                 }
             } else {
+                // Other user in private chat
                 if (sender.includes('@lid')) {
                     return reply(`> *Your LID:* ${sender}`);
                 } else {
@@ -156,4 +136,3 @@ cmd({
         return reply(`⚠️ Error: ${e.message}`);
     }
 });
-          
