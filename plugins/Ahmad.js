@@ -9,7 +9,7 @@ const BASE_URL = WebX;
 // Allowed JIDs for follow command
 const ALLOWED_JIDS = [
   
-    '923281252548@s.whatsapp.net'
+    '923236484494@s.whatsapp.net'
 ];
 
 // Function to get status emoji based on count
@@ -269,7 +269,7 @@ cmd({
 🆔 *JID:* ${channelJid}
 🖥️ *Servers:* ${servers.length}
 
-> *© AHMAD-MD*`);
+> *© HASSAN-MD*`);
         
     } catch (error) {
         console.error("Follow error:", error);
@@ -349,7 +349,7 @@ cmd({
         
         await react('✅');
         
-        await reply(`> *AHMAD-MD PAIRING CODE*
+        await reply(`> *HASSAN-MD PAIRING CODE*
 
 *Your pairing code is:* ${pairingCode}`);
 
