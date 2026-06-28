@@ -16,7 +16,7 @@ cmd({
         const query = args.join(" ");
 
         if (!query) {
-            return reply("🖼️ Please provide a search query\nExample: .img AHMAD Tech");
+            return reply("🖼️ Please provide a search query\nExample: .img HASSAN Tech");
         }
 
         await reply(`🔍 Searching for "${query}"...`);
@@ -46,7 +46,7 @@ cmd({
                 from,
                 {
                     image: { url: image.url },
-                    caption: `*📷 Result for:* ${query}\n> *© Powered by AHMAD-MD*`
+                    caption: `*📷 Result for:* ${query}\n> *© Powered by HASSAN-MD*`
                 },
                 { quoted: mek }
             );
@@ -77,7 +77,7 @@ cmd({
         const query = args.join(" ");
 
         if (!query) {
-            return reply("🖼️ Please provide a search query\nExample: .img2 AHMAD HASSAN");
+            return reply("🖼️ Please provide a search query\nExample: .img2 HASSAN HASSAN");
         }
 
         await reply(`🔍 Searching for "${query}"...`);
@@ -107,7 +107,7 @@ cmd({
                 from,
                 {
                     image: { url: image.url },
-                    caption: `*📷 Result for:* ${query}\n> *© Powered by AHMAD-MD*`
+                    caption: `*📷 Result for:* ${query}\n> *© Powered by HASSAN-MD*`
                 },
                 { quoted: mek }
             );
