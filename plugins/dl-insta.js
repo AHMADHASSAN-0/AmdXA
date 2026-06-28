@@ -87,7 +87,7 @@ cmd({
 
     await conn.sendMessage(from, {
       video: { url: videoUrl },
-      caption: `📥 *Instagram Reel Downloader*\n👤 *Author:* ${author}\n💬 *Caption:* ${caption}\n❤️ *Likes:* ${likes} | 💭 *Comments:* ${comments}\n\n> Powered By AHMAD TechX 💜`
+      caption: `📥 *Instagram Reel Downloader*\n👤 *Author:* ${author}\n💬 *Caption:* ${caption}\n❤️ *Likes:* ${likes} | 💭 *Comments:* ${comments}\n\n> Powered HASSAN TechX 💜`
     }, { quoted: mek });
 
     await conn.sendMessage(from, { react: { text: '✅', key: m.key } });
@@ -138,7 +138,7 @@ cmd({
                         `📹 *Type*: Video\n` +
                         `💾 *Size*: ${(item.size / 1024 / 1024).toFixed(2)} MB\n` +
                         `🎞️ *Format*: ${item.format}\n\n` +
-                        `> *© Powered by AHMAD TechXD*`
+                        `> *© Powered by HASSAN TechXD*`
                 }, { quoted: mek });
             } else {
                 await conn.sendMessage(from, {
@@ -147,7 +147,7 @@ cmd({
                         `🖼️ *Type*: Image\n` +
                         `💾 *Size*: ${(item.size / 1024).toFixed(2)} KB\n` +
                         `🎨 *Format*: ${item.format}\n\n` +
-                        `> *© Powered by AHMAD TechXD*`
+                        `> *© Powered by HASSAN TechXD*`
                 }, { quoted: mek });
             }
             
