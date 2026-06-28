@@ -39,7 +39,7 @@ cmd({
 ⏱ *Duration:* ${Math.floor(result.duration / 1000)}s
 🎞 *Quality:* ${media.quality}
 
-✨ Powered By AHMAD Tech`;
+✨ Powered By HASSAN Tech`;
 
     await conn.sendMessage(
       from,
