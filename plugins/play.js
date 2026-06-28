@@ -92,7 +92,7 @@ async (conn, mek, m, { from, q, reply }) => {
 ┃
 ╰━━━━━━━━━━━━━━━━━━⬣
 
-> Powered By AHMAD-MD`
+> Powered By HASSAN-MD`
         }, { quoted: mek });
 
         // 📥 Download Audio Buffer
