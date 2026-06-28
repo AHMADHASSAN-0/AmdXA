@@ -34,7 +34,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
         const responseTime = (end - start) / 1000;
 
         // Ultra Sleek Text Design (ORIGINAL)
-        const text = `*ᴘᴏɴɢ...!!* 📡\n\n*🚀 sᴘᴇᴇᴅ:* ${responseTime.toFixed(2)}ms\n*🧬 sᴛᴀᴛᴜs:* Online\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ-ᴍᴅ*`;
+        const text = `*ᴘᴏɴɢ...!!* 📡\n\n*🚀 sᴘᴇᴇᴅ:* ${responseTime.toFixed(2)}ms\n*🧬 sᴛᴀᴛᴜs:* Online\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ HASSAN-ᴍᴅ*`;
 
         await conn.sendMessage(from, {
             text,
@@ -97,7 +97,7 @@ async (conn, mek, m, { from, reply }) => {
 ┃
 ┗━━━━━━━━━━━━━━━━━━┈⊷
 
-> *Created by Ahmad Hassan*`;
+> *Created by Hassan*`;
 
         await conn.sendMessage(from, { 
             text: msg.trim(),
@@ -106,7 +106,7 @@ async (conn, mek, m, { from, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363408512260657@newsletter',
-                    newsletterName: "AHMAD-MD TECH",
+                    newsletterName: "HASSAN-MD TECH",
                     serverMessageId: 143
                 }
             }
