@@ -44,7 +44,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363428720051298@newsletter',
-                    newsletterName: "AHMAD-MD TECH",
+                    newsletterName: "HASSAN-MD TECH",
                     serverMessageId: 143
                 }
             }
@@ -87,7 +87,7 @@ async (conn, mek, m, { from, reply }) => {
         // Dashboard Style Design (ORIGINAL)
         const msg = `
 ┏━━━━━━━━━━━━━━━━━━┈⊷
-┃  ✨ *AHMAD-MD SYSTEM* ✨
+┃  ✨ *HASSAN-MD SYSTEM* ✨
 ┗━━━━━━━━━━━━━━━━━━┈⊷
 ┃
 ┃ 📡 *Latency:* ${ping} ms
