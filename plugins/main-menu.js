@@ -58,7 +58,7 @@ async (conn, mek, m, { from, pushname, reply }) => {
 *╰══════════════════⊷*
 ${menuSections}
 *──╼『 ${BOT_NAME} 』╾──*
-> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʜᴍᴀᴅ ʜᴀssᴀɴ*`;
+> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʜᴀssᴀɴ*`;
 
         // Video URL Selection
         let videoToUse = "https://files.catbox.moe/2owh18.mp4";
@@ -75,7 +75,7 @@ ${menuSections}
                 isForwarded: true, 
                 forwardedNewsletterMessageInfo: { 
                     newsletterJid: '120363428720051298@newsletter', 
-                    newsletterName: "AHMADTech", 
+                    newsletterName: "HASSAN Tech", 
                     serverMessageId: 143 
                 } 
             } 
