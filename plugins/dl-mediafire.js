@@ -44,7 +44,7 @@ cmd({
       document: fileBuffer,
       fileName: fileName,
       mimetype: mimetype,
-      caption: `*MediaFire Download*\n\n📄 *File:* ${fileName}\n\nPowered by AHMAD-MD`
+      caption: `*MediaFire Download*\n\n📄 *File:* ${fileName}\n\nPowered by HASSAN-MD`
     };
 
     await conn.sendMessage(from, messageOptions, { quoted: mek });
