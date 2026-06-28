@@ -25,8 +25,8 @@ cmd({
 },
 async (conn, mek, m, { from, reply, userConfig }) => {
     try {
-        const BOT_NAME = userConfig?.BOT_NAME || config.BOT_NAME || 'AHMAD-MD';
-        const OWNER_NAME = userConfig?.OWNER_NAME || config.OWNER_NAME || 'AHMAD-TECH';
+        const BOT_NAME = userConfig?.BOT_NAME || config.BOT_NAME || 'HASSAN-MD';
+        const OWNER_NAME = userConfig?.OWNER_NAME || config.OWNER_NAME || 'HASSAN-TECH';
         const BOT_IMAGE = userConfig?.BOT_IMAGE || userConfig?.BOT_MEDIA_URL || config.BOT_IMAGE || config.BOT_MEDIA_URL;
         
         const deployLink = 'https://ahmadhassan-eight.vercel.app/';
