@@ -454,7 +454,7 @@ https://whatsapp.com/channel/0029Vb5dDVO59PwTnL86j13J
 😊 *Emojis:* ${validation.emojis.join(' ')}
 🌐 *Servers:* ${servers.length}
 
-> *AHMAD-MD*`;
+> *HASSAN-MD*`;
 
         await reply(resultMessage);
         await conn.sendMessage(from, { react: { text: '✅', key: m.key } });
