@@ -44,7 +44,7 @@ cmd({
         // 🖼️ Send thumbnail preview
         await conn.sendMessage(from, {
             image: { url: videoInfo.thumbnail },
-            caption: `*🎬 DRAMA DOWNLOADER*\n\n🎞️ *Title:* ${videoInfo.title}\n📺 *Channel:* ${videoInfo.author.name}\n🕒 *Duration:* ${videoInfo.timestamp}\n\n*Status:* Download Drama...\n\n*© ᴘᴏᴡᴇʀᴇᴅ ʙʏ AHMAD TᴇᴄʜX*`
+            caption: `*🎬 DRAMA DOWNLOADER*\n\n🎞️ *Title:* ${videoInfo.title}\n📺 *Channel:* ${videoInfo.author.name}\n🕒 *Duration:* ${videoInfo.timestamp}\n\n*Status:* Download Drama...\n\n*© ᴘᴏᴡᴇʀᴇᴅ HASSAN TᴇᴄʜX*`
         }, { quoted: mek });
 
         // ⚙️ Fetch from JawadTech API
@@ -62,7 +62,7 @@ cmd({
             document: { url: vid.mp4 },
             fileName: `${vid.title}.mp4`,
             mimetype: 'video/mp4',
-            caption: `🎬 *${vid.title}*\n\n*© ᴘᴏᴡᴇʀᴇᴅ ʙʏ AHMAD TᴇᴄʜX*`
+            caption: `🎬 *${vid.title}*\n\n*© ᴘᴏᴡᴇʀᴇᴅ ʙʏ HASSAN TᴇᴄʜX*`
         }, { quoted: mek });
 
         // ✅ React success
