@@ -27,7 +27,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
         const platform = os.platform();
 
         // PROFESSIONAL DASHBOARD DESIGN
-        const status = `*╭───────────〔 ᴀʜᴍᴀᴅ-ᴍᴅ 〕──────────┈⊷*
+        const status = `*╭───────────〔 HASSAN-ᴍᴅ 〕──────────┈⊷*
 *│*
 *┝┤ 🤖 sᴛᴀᴛᴜs:* ᴏɴʟɪɴᴇ & ᴀᴄᴛɪᴠᴇ
 *┝┤ ⏱️ ᴜᴘᴛɪᴍᴇ:* ${uptime}
@@ -46,7 +46,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363428720051298@newsletter',
-                    newsletterName: "AHMAD-MD TECH",
+                    newsletterName: "HASSAN-MD TECH",
                     serverMessageId: 143
                 }
             }
