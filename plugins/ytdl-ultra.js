@@ -59,7 +59,7 @@ videoPatterns.forEach((targetPattern) => {
                     `📺 *Channel :* ${videoInfo.author.name}\n` +
                     `🕒 *Duration :* ${videoInfo.timestamp}\n\n` +
                     `⏳ *Status :* Downloading via .${targetPattern}...\n\n` +
-                    `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐀͢ͱ꧊ϻ͒͜𝛂͜𝛛🚩*`
+                    `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʜᴀssᴀɴ🚩*`
             }, { quoted: mek });
 
             // ⚙️ API se download link lo
@@ -80,7 +80,7 @@ videoPatterns.forEach((targetPattern) => {
                     `╰━━━━━━━━━━━━━━━╯\n\n` +
                     `🎬 *${videoInfo.title}*\n` +
                     `📥 *Command:* .${targetPattern}\n\n` +
-                    `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐀͢ͱ꧊ϻ͒͜𝛂͜𝛛🚩*`
+                    `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ HASSAN🚩*`
             }, { quoted: mek });
 
             await conn.sendMessage(from, { react: { text: '✅', key: m.key } });
